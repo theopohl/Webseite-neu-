@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Theo Pohl – Webdesign</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1a1a1a;
+      --white: #ffffff;
+      --cream: #faf9f6;
+      --sage: #8a9e8a;
+      --sage-light: #e8ede8;
+      --sage-dark: #4a6b4a;
+      --gray: #6b6b6b;
+      --border: #e4e1da;
+      --text-muted: #8a8a8a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      background: rgba(250,249,246,0.93);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-cta {
+      background: var(--sage-dark) !important;
+      color: var(--white) !important;
+      padding: 0.55rem 1.3rem;
+      border-radius: 100px;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 2.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-blob {
+      position: absolute;
+      top: -150px; right: -150px;
+      width: 550px; height: 550px;
+      background: radial-gradient(circle, #c8d9c8 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: drift 12s ease-in-out infinite;
+    }
+
+    .hero-blob-2 {
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #dce4dc 0%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: drift 15s ease-in-out infinite reverse;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(20px, -25px); }
+    }
+
+    .hero-inner { max-width: 860px; position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.8s ease both;
+      border: 1px solid #c4d4c4;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: var(--sage-dark);
+      border-radius: 50%;
+      animation: pulse 2.5s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 7.5vw, 6rem);
+      line-height: 1.06;
+      color: var(--black);
+      animation: fadeUp 0.8s ease 0.1s both;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--sage-dark);
+    }
+
+    .hero-sub {
+      margin-top: 1.75rem;
+      font-size: 1.05rem;
+      color: var(--gray);
+      max-width: 520px;
+      line-height: 1.75;
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s ease 0.3s both;
+    }
+
+    .btn-primary {
+      background: var(--sage-dark);
+      color: var(--white);
+      padding: 0.85rem 1.9rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.92rem;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,107,74,0.25); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--black);
+      padding: 0.85rem 1.9rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.92rem;
+      border: 1.5px solid var(--border);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--sage-dark); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      animation: fadeUp 0.8s ease 0.4s both;
+      flex-wrap: wrap;
+    }
+
+    .stat-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--black);
+    }
+    .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.4; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SECTIONS */
+    section { padding: 6rem 2.5rem; }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+
+    .section-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      line-height: 1.2;
+      margin-bottom: 3rem;
+      color: var(--black);
+    }
+    .section-title em { font-style: italic; color: var(--sage-dark); }
+
+    /* SERVICES */
+    .services { background: var(--white); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .service-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
+    .service-icon { font-size: 1.75rem; margin-bottom: 1rem; }
+    .service-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 0.6rem; }
+    .service-card p { font-size: 0.88rem; color: var(--gray); line-height: 1.75; }
+
+    /* PRICING */
+    .pricing { background: var(--cream); }
+
+    .pricing-intro {
+      background: var(--sage-light);
+      border: 1px solid #c4d4c4;
+      border-radius: 14px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.9rem;
+      color: var(--sage-dark);
+      line-height: 1.7;
+    }
+
+    .pricing-intro strong { font-weight: 600; }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .price-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .price-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
+
+    .price-card.featured {
+      background: var(--sage-dark);
+      border-color: var(--sage-dark);
+      color: var(--white);
+    }
+    .price-card.featured .price-label,
+    .price-card.featured .price-desc,
+    .price-card.featured .price-note { color: rgba(255,255,255,0.6); }
+    .price-card.featured .price-desc { border-top-color: rgba(255,255,255,0.2); }
+
+    .price-badge {
+      display: inline-block;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.7rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+      border: 1px solid #c4d4c4;
+    }
+
+    .price-card.featured .price-badge {
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .price-label { font-size: 0.78rem; color: var(--gray); margin-bottom: 0.4rem; }
+    .price-amount {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .price-amount span { font-size: 1.1rem; font-family: 'DM Sans', sans-serif; }
+    .price-desc {
+      font-size: 0.84rem;
+      color: var(--gray);
+      line-height: 1.65;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .price-note { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.6rem; }
+
+    /* HOW */
+    .how { background: var(--white); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .step { text-align: center; padding: 1.25rem; }
+    .step-number {
+      width: 46px; height: 46px;
+      background: var(--sage-light);
+      border: 1px solid #c4d4c4;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--sage-dark);
+      margin: 0 auto 1.25rem;
+    }
+    .step h3 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.84rem; color: var(--gray); line-height: 1.7; }
+
+    /* PORTFOLIO */
+    .portfolio { background: var(--cream); }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .portfolio-card {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--white);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .portfolio-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
+
+    .portfolio-preview {
+      height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+    }
+
+    .portfolio-preview.cafe { background: linear-gradient(135deg, #2a3a2a, #4a6b4a); color: #c8d9c8; }
+    .portfolio-preview.restaurant { background: linear-gradient(135deg, #2a2a3a, #3a3a6b); color: #c8c8d9; }
+    .portfolio-preview.shop { background: linear-gradient(135deg, #3a2a2a, #6b4a4a); color: #d9c8c8; }
+
+    .portfolio-info { padding: 1.25rem; }
+    .portfolio-info h3 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 0.25rem; }
+    .portfolio-info p { font-size: 0.78rem; color: var(--gray); }
+    .portfolio-tag {
+      display: inline-block;
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      font-size: 0.68rem;
+      padding: 0.22rem 0.6rem;
+      border-radius: 100px;
+      margin-top: 0.7rem;
+      border: 1px solid #c4d4c4;
+    }
+
+    /* CONTACT */
+    .contact { background: #1e2a1e; color: var(--white); }
+    .contact .section-tag { color: #8aaa8a; }
+    .contact .section-title { color: var(--white); }
+    .contact .section-title em { color: #8aaa8a; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .contact-item h4 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #8aaa8a;
+      margin-bottom: 0.7rem;
+    }
+
+    .contact-item a, .contact-item p {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.97rem;
+      transition: color 0.2s;
+      line-height: 1.5;
+    }
+    .contact-item a:hover { color: #c8d9c8; }
+
+    .contact-cta {
+      margin-top: 3.5rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+    .contact-cta p {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2.3rem);
+      margin-bottom: 1.5rem;
+      color: var(--white);
+    }
+
+    .btn-sage {
+      background: var(--sage-light);
+      color: var(--sage-dark);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      display: inline-block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-sage:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(138,158,138,0.3); }
+
+    footer {
+      background: #141e14;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      padding: 1.75rem;
+      font-size: 0.78rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 1.25rem 3rem; }
+      section { padding: 4rem 1.25rem; }
+      .hero-stats { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Theo Pohl</a>
+    <ul class="nav-links">
+      <li><a href="#leistungen">Leistungen</a></li>
+      <li><a href="#preise">Preise</a></li>
+      <li><a href="#ablauf">Ablauf</a></li>
+      <li><a href="#kontakt" class="nav-cta">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-blob"></div>
+    <div class="hero-blob-2"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">Verfügbar für neue Projekte</div>
+      <h1>Deine Website.<br><em>Einmal bezahlen.</em><br>Fertig.</h1>
+      <p class="hero-sub">Ich erstelle professionelle Websites für Cafés, Restaurants und kleine Unternehmen – günstig, ohne monatliches Abo und ohne versteckte Kosten.</p>
+      <div class="hero-buttons">
+        <a href="#kontakt" class="btn-primary">Jetzt anfragen</a>
+        <a href="#preise" class="btn-secondary">Preise ansehen</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">65€</div>
+          <div class="stat-label">Grundpreis</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">0€</div>
+          <div class="stat-label">Monatliches Abo</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">1x</div>
+          <div class="stat-label">Jahreshosting –<br>kein Monatsbeitrag</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leistungen" class="services">
+    <div class="section-inner reveal">
+      <p class="section-tag">Was ich anbiete</p>
+      <h2 class="section-title">Alles was du<br><em>brauchst</em></h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🎨</div>
+          <h3>Website Erstellung</h3>
+          <p>Moderne, professionelle Website die auf allen Geräten perfekt aussieht – Handy, Tablet und Computer.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">✏️</div>
+          <h3>Änderungen & Updates</h3>
+          <p>Öffnungszeiten geändert? Neues Foto? Ich kümmere mich unkompliziert um alle Änderungen – auf Anfrage.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔍</div>
+          <h3>SEO Optimierung</h3>
+          <p>Deine Website wird so aufgebaut dass sie bei Google gefunden wird – mehr Kunden durch bessere Sichtbarkeit.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🌐</div>
+          <h3>Domain Einrichtung</h3>
+          <p>Ich kümmere mich um alles Technische. Du bekommst deine eigene Adresse wie restaurant-muster.de</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📱</div>
+          <h3>Mobile First Design</h3>
+          <p>Die meisten Besucher kommen über das Handy. Deine Website sieht auf jedem Bildschirm perfekt aus.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">💰</div>
+          <h3>Kein monatliches Abo</h3>
+          <p>Das Hosting wird einmal jährlich bezahlt – keine monatlichen Überraschungen oder laufenden Kosten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="preise" class="pricing">
+    <div class="section-inner reveal">
+      <p class="section-tag">Transparente Preise</p>
+      <h2 class="section-title">Kein Abo.<br><em>Nur zahlen was du brauchst.</em></h2>
+      <div class="pricing-intro">
+        <strong>So funktioniert es:</strong> Du zahlst einmalig für die Website-Erstellung. Das Hosting wird einmal pro Jahr bezahlt – nicht monatlich. Änderungen danach werden einzeln berechnet, nur wenn du sie brauchst.
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card featured">
+          <div class="price-badge">Einstieg</div>
+          <p class="price-label">Website Erstellung</p>
+          <div class="price-amount"><span>ab </span>65€</div>
+          <p class="price-desc">Komplette Website mit allen Seiten und mobilfreundlichem Design. Zusätzlich kommt das Jahreshosting dazu.</p>
+          <p class="price-note">Einmalige Zahlung · Kein monatliches Abo</p>
+        </div>
+        <div class="price-card">
+          <p class="price-label">Hosting</p>
+          <div class="price-amount"><span>~</span>12€</div>
+          <p class="price-desc">Das Hosting wird einmal pro Jahr bezahlt – nicht monatlich. So hast du Ruhe für ein ganzes Jahr.</p>
+          <p class="price-note">Pro Jahr · Keine monatlichen Kosten</p>
+        </div>
+        <div class="price-card">
+          <p class="price-label">Kleine Änderung</p>
+          <div class="price-amount"><span>ab </span>15€</div>
+          <p class="price-desc">Text ändern, neues Foto einfügen, Öffnungszeiten aktualisieren – schnell und unkompliziert.</p>
+          <p class="price-note">Pro Änderung · Nur wenn nötig</p>
+        </div>
+        <div class="price-card">
+          <p class="price-label">Größere Änderung</p>
+          <div class="price-amount"><span>ab </span>40€</div>
+          <p class="price-desc">Neue Seite hinzufügen, komplett neuen Bereich gestalten oder ein größeres Redesign.</p>
+          <p class="price-note">Pro Änderung · Auf Anfrage</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ablauf" class="how">
+    <div class="section-inner reveal">
+      <p class="section-tag">So einfach geht's</p>
+      <h2 class="section-title">Deine Website<br><em>in 4 Schritten</em></h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Kontakt aufnehmen</h3>
+          <p>Schreib mir per WhatsApp oder E-Mail was du brauchst. Ich melde mich zeitnah bei dir.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Infos & Bezahlung</h3>
+          <p>Du schickst mir Logo, Fotos und alle wichtigen Infos. Bezahlung läuft sicher vorab.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Website erstellen</h3>
+          <p>Ich erstelle deine Website – modern, professionell und auf dein Unternehmen zugeschnitten.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <h3>Online gehen</h3>
+          <p>Deine Website geht online. Änderungen danach? Einfach melden – ich erledige alles schnell.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="kontakt" class="contact">
+    <div class="section-inner reveal">
+      <p class="section-tag">Kontakt</p>
+      <h2 class="section-title">Lass uns<br><em>sprechen</em></h2>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <h4>Telefon</h4>
+          <a href="tel:1234567">1234567</a>
+        </div>
+        <div class="contact-item">
+          <h4>E-Mail</h4>
+          <a href="mailto:theopohl.com">theopohl.com</a>
+        </div>
+        <div class="contact-item">
+          <h4>Antwortzeit</h4>
+          <p>Innerhalb 24 Stunden</p>
+        </div>
+        <div class="contact-item">
+          <h4>Hosting</h4>
+          <p>Einmal jährlich –<br>kein Monatsabo</p>
+        </div>
+      </div>
+      <div class="contact-cta">
+        <p>Bereit für deine neue Website?</p>
+        <a href="tel:1234567" class="btn-sage">Jetzt anfragen →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Theo Pohl Webdesign · Alle Rechte vorbehalten</p>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
