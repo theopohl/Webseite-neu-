@@ -511,7 +511,7 @@
   </nav>
 
   <section class="hero">
-    <img src="foto.PNG" alt="Theos Webdesign Logo" style="position:absolute; top:6rem; right:2.5rem; width:130px; height:130px; border-radius:50%; object-fit:cover; box-shadow: 0 12px 40px rgba(0,0,0,0.12); z-index:2;"/>
+    <img src="foto.PNG" alt="Theos Webdesign Logo" style="position:absolute; top:8rem; right:4rem; width:130px; height:130px; border-radius:50%; object-fit:cover; box-shadow: 0 12px 40px rgba(0,0,0,0.12); z-index:2;"/>
     <div class="hero-blob"></div>
     <div class="hero-blob-2"></div>
     <div class="hero-inner" style="display:flex; align-items:center; gap:3rem; flex-wrap:wrap;">
@@ -525,7 +525,7 @@
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-number">65€</div>
+          <div class="stat-number">89€</div>
           <div class="stat-label">Grundpreis</div>
         </div>
         <div class="stat-item">
@@ -591,7 +591,7 @@
         <div class="price-card featured">
           <div class="price-badge">Einstieg</div>
           <p class="price-label">Website Erstellung</p>
-          <div class="price-amount"><span>ab </span>65€</div>
+          <div class="price-amount"><span>ab </span>89€</div>
           <p class="price-desc">Komplette Website mit allen Seiten und mobilfreundlichem Design. Zusätzlich kommt das Jahreshosting dazu.</p>
           <p class="price-note">Einmalige Zahlung · Kein monatliches Abo</p>
         </div>
@@ -603,7 +603,7 @@
         </div>
         <div class="price-card">
           <p class="price-label">Kleine Änderung</p>
-          <div class="price-amount"><span>ab </span>15€</div>
+          <div class="price-amount"><span>ab </span>20€</div>
           <p class="price-desc">Text ändern, neues Foto einfügen, Öffnungszeiten aktualisieren – schnell und unkompliziert.</p>
           <p class="price-note">Pro Änderung · Nur wenn nötig</p>
         </div>
@@ -676,8 +676,39 @@
     </div>
   </section>
 
+  <!-- IMPRESSUM -->
+  <section id="impressum" style="background:#f5f3ee; padding:4rem 2.5rem; display:none;">
+    <div style="max-width:700px; margin:0 auto;">
+      <h2 style="font-family:'DM Serif Display',serif; font-size:2rem; margin-bottom:2rem;">Impressum</h2>
+      <div style="font-size:0.9rem; line-height:1.8; color:#444;">
+        <p><strong>Angaben gemäß § 5 TMG</strong></p><br>
+        <p>Theo Pohl<br>Kreuzstücken 22<br>24594 Hohenwestedt</p><br>
+        <p><strong>Kontakt:</strong><br>Telefon: 0160 97806831<br>E-Mail: theopohl@icloud.com</p><br>
+        <p><strong>Hinweis:</strong><br>Diese Website wird von einer Privatperson betrieben. Es besteht kein eingetragenes Gewerbe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATENSCHUTZ -->
+  <section id="datenschutz" style="background:#eef0ee; padding:4rem 2.5rem; display:none;">
+    <div style="max-width:700px; margin:0 auto;">
+      <h2 style="font-family:'DM Serif Display',serif; font-size:2rem; margin-bottom:2rem;">Datenschutzerklärung</h2>
+      <div style="font-size:0.9rem; line-height:1.8; color:#444;">
+        <p><strong>1. Verantwortlicher</strong><br>Theo Pohl, Kreuzstücken 22, 24594 Hohenwestedt<br>E-Mail: theopohl@icloud.com</p><br>
+        <p><strong>2. Hosting</strong><br>Diese Website wird über GitHub Pages gehostet. Anbieter ist GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA. GitHub kann Daten der Besucher erfassen. Weitere Infos: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" style="color:#4a6b4a;">GitHub Datenschutzerklärung</a>.</p><br>
+        <p><strong>3. Google Fonts</strong><br>Diese Website verwendet Google Fonts. Anbieter ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Beim Aufruf der Website wird eine Verbindung zu Googles Servern hergestellt. Dabei wird Ihre IP-Adresse an Google übermittelt. Grundlage ist Art. 6 Abs. 1 lit. f DSGVO. Weitere Infos: <a href="https://policies.google.com/privacy" style="color:#4a6b4a;">Google Datenschutzerklärung</a>.</p><br>
+        <p><strong>4. Ihre Rechte</strong><br>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Kontakt: theopohl@icloud.com</p><br>
+        <p><strong>5. Cookies</strong><br>Diese Website verwendet keine eigenen Cookies.</p>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <p>© 2025 Theo Pohl Webdesign · Alle Rechte vorbehalten</p>
+    <p style="margin-top:0.5rem;">
+      <a href="#impressum" onclick="document.getElementById('impressum').style.display='block';document.getElementById('datenschutz').style.display='none';" style="color:rgba(255,255,255,0.5); text-decoration:none; margin-right:1.5rem;">Impressum</a>
+      <a href="#datenschutz" onclick="document.getElementById('datenschutz').style.display='block';document.getElementById('impressum').style.display='none';" style="color:rgba(255,255,255,0.5); text-decoration:none;">Datenschutz</a>
+    </p>
   </footer>
 
   <script>
