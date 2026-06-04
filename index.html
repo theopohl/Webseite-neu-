@@ -677,7 +677,7 @@
   </section>
 
   <!-- IMPRESSUM -->
-  <section id="impressum" style="background:#f5f3ee; padding:4rem 2.5rem; display:none;">
+  <section id="impressum" style="background:#f5f3ee; padding:6rem 2.5rem 4rem; display:none; scroll-margin-top:0;">
     <div style="max-width:700px; margin:0 auto;">
       <h2 style="font-family:'DM Serif Display',serif; font-size:2rem; margin-bottom:2rem;">Impressum</h2>
       <div style="font-size:0.9rem; line-height:1.8; color:#444;">
@@ -690,7 +690,7 @@
   </section>
 
   <!-- DATENSCHUTZ -->
-  <section id="datenschutz" style="background:#eef0ee; padding:4rem 2.5rem; display:none;">
+  <section id="datenschutz" style="background:#eef0ee; padding:6rem 2.5rem 4rem; display:none; scroll-margin-top:0;">
     <div style="max-width:700px; margin:0 auto;">
       <h2 style="font-family:'DM Serif Display',serif; font-size:2rem; margin-bottom:2rem;">Datenschutzerklärung</h2>
       <div style="font-size:0.9rem; line-height:1.8; color:#444;">
@@ -706,12 +706,24 @@
   <footer>
     <p>© 2025 Theo Pohl Webdesign · Alle Rechte vorbehalten</p>
     <p style="margin-top:0.5rem;">
-      <a href="#impressum" onclick="document.getElementById('impressum').style.display='block';document.getElementById('datenschutz').style.display='none';" style="color:rgba(255,255,255,0.5); text-decoration:none; margin-right:1.5rem;">Impressum</a>
-      <a href="#datenschutz" onclick="document.getElementById('datenschutz').style.display='block';document.getElementById('impressum').style.display='none';" style="color:rgba(255,255,255,0.5); text-decoration:none;">Datenschutz</a>
+      <a href="#" onclick="showSection('impressum')" style="color:rgba(255,255,255,0.5); text-decoration:none; margin-right:1.5rem;">Impressum</a>
+      <a href="#" onclick="showSection('datenschutz')" style="color:rgba(255,255,255,0.5); text-decoration:none;">Datenschutz</a>
     </p>
   </footer>
 
   <script>
+    function showSection(id) {
+      // Hide all extra sections first
+      document.getElementById('impressum').style.display = 'none';
+      document.getElementById('datenschutz').style.display = 'none';
+      // Show requested section
+      const el = document.getElementById(id);
+      el.style.display = 'block';
+      // Scroll to very top of section
+      window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+      return false;
+    }
+
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
