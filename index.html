@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Theo Pohl – Webdesign</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <script>history.scrollRestoration = 'manual';</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -576,6 +575,7 @@
   </style>
 </head>
 <body>
+  <div id="top" style="position:fixed;top:0;left:0;"></div>
 
   <nav>
     <a href="#" class="nav-logo">Theos Webdesign</a>
@@ -794,10 +794,25 @@
   </footer>
 
   <script>
-    // Aggressive scroll to top
+    // Fix scroll position - runs immediately before anything else
+    if (history.scrollRestoration) {
+      history.scrollRestoration = 'manual';
+    }
     window.scrollTo(0, 0);
-    document.addEventListener('DOMContentLoaded', function() { window.scrollTo(0, 0); });
-    window.addEventListener('load', function() { window.scrollTo(0, 0); });
+    document.addEventListener('DOMContentLoaded', function() {
+      window.scrollTo(0, 0);
+    });
+    window.addEventListener('load', function() {
+      window.scrollTo(0, 0);
+      setTimeout(function() { window.scrollTo(0, 0); }, 100);
+      setTimeout(function() { window.scrollTo(0, 0); }, 500);
+    });
+    window.addEventListener('pageshow', function() {
+      window.scrollTo(0, 0);
+    });
+    window.addEventListener('beforeunload', function() {
+      window.scrollTo(0, 0);
+    });
 
     function showSection(id) {
       // Hide all extra sections first
