@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Theo Pohl – Webdesign</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script>history.scrollRestoration = 'manual';</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -488,6 +489,33 @@
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* HERO LAYOUT */
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      max-width: 900px;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-logo-wrap {
+      flex-shrink: 0;
+    }
+
+    .hero-logo-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      display: block;
+    }
+
     @media (max-width: 768px) {
       /* NAV */
       nav { padding: 0.9rem 1.25rem; }
@@ -496,6 +524,9 @@
 
       /* HERO */
       .hero { padding: 6rem 1.25rem 3rem; min-height: auto; }
+      .hero-inner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .hero-logo-wrap { width: 100%; display: flex; justify-content: center; }
+      .hero-logo-img { width: 140px; height: 140px; }
       .hero h1 { font-size: 2.2rem; letter-spacing: -0.01em; }
       .hero-sub { font-size: 0.92rem; margin-top: 1rem; }
       .hero-badge { font-size: 0.72rem; margin-bottom: 1.25rem; }
@@ -562,27 +593,31 @@
     <div class="hero-blob"></div>
     <div class="hero-blob-2"></div>
     <div class="hero-inner">
-      <div style="flex:1; min-width:280px;">
-      <div class="hero-badge">Verfügbar für neue Projekte</div>
-      <h1>Deine Website.<br><em>Einmal bezahlen.</em><br>Fertig.</h1>
-      <p class="hero-sub">Ich erstelle professionelle Websites für Cafés, Restaurants und kleine Unternehmen – günstig, ohne monatliches Abo und ohne versteckte Kosten.</p>
-      <div class="hero-buttons">
-        <a href="#kontakt" class="btn-primary">Jetzt anfragen</a>
-        <a href="#preise" class="btn-secondary">Preise ansehen</a>
+      <div class="hero-text">
+        <div class="hero-badge">Verfügbar für neue Projekte</div>
+        <h1>Deine Website.<br><em>Einmal bezahlen.</em><br>Fertig.</h1>
+        <p class="hero-sub">Ich erstelle professionelle Websites für Cafés, Restaurants und kleine Unternehmen – günstig, ohne monatliches Abo und ohne versteckte Kosten.</p>
+        <div class="hero-buttons">
+          <a href="#kontakt" class="btn-primary">Jetzt anfragen</a>
+          <a href="#preise" class="btn-secondary">Preise ansehen</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">89€</div>
+            <div class="stat-label">Grundpreis</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">0€</div>
+            <div class="stat-label">Monatliches Abo</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1x</div>
+            <div class="stat-label">Jahreshosting –<br>kein Monatsbeitrag</div>
+          </div>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-number">89€</div>
-          <div class="stat-label">Grundpreis</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">0€</div>
-          <div class="stat-label">Monatliches Abo</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">1x</div>
-          <div class="stat-label">Jahreshosting –<br>kein Monatsbeitrag</div>
-        </div>
+      <div class="hero-logo-wrap">
+        <img src="foto.PNG" alt="Theos Webdesign Logo" class="hero-logo-img"/>
       </div>
     </div>
 
@@ -759,11 +794,10 @@
   </footer>
 
   <script>
-    // Force scroll to top on page load
-    window.addEventListener('load', function() {
-      setTimeout(function() { window.scrollTo(0, 0); }, 0);
-    });
-    history.scrollRestoration = 'manual';
+    // Aggressive scroll to top
+    window.scrollTo(0, 0);
+    document.addEventListener('DOMContentLoaded', function() { window.scrollTo(0, 0); });
+    window.addEventListener('load', function() { window.scrollTo(0, 0); });
 
     function showSection(id) {
       // Hide all extra sections first
