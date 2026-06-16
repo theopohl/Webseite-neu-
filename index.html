@@ -1,838 +1,625 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Theo Pohl – Webdesign</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theos Webdesign – Deine Website. Einmal bezahlen. Fertig.</title>
+  <meta name="description" content="Professionelle Websites für Cafés, Restaurants und lokale Unternehmen. Ab 75 Euro einmalig, kein Abo, persönliche Beratung.">
+  <meta name="robots" content="index, follow">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --black: #1a1a1a;
-      --white: #ffffff;
-      --cream: #faf9f6;
-      --sage: #8a9e8a;
-      --sage-light: #e8ede8;
-      --sage-dark: #4a6b4a;
-      --gray: #6b6b6b;
-      --border: #e4e1da;
-      --text-muted: #8a8a8a;
-    }
-
     html { scroll-behavior: smooth; }
-
     body {
-      background: var(--cream);
-      color: var(--black);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
       overflow-x: hidden;
     }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; }
 
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 2.5rem;
-      background: rgba(250,249,246,0.93);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+    :root {
+      --olive:      #3A5435;
+      --olive-mid:  #4D6E45;
+      --olive-lt:   #7A9B5C;
+      --olive-pale: #ECF2E8;
+      --bg:         #F7F2EA;
+      --bg-off:     #FDF9F4;
+      --dark:       #1C1A14;
+      --text:       #4A4540;
+      --border:     #DDD5C8;
+      --white:      #FFFFFF;
+
+      --r-sm:  6px;
+      --r-md:  12px;
+      --r-lg:  20px;
+      --r-xl:  28px;
+      --r-full:9999px;
+
+      --sh-card: 0 2px 12px rgba(28,26,20,.08);
+      --sh-md:   0 6px 24px rgba(28,26,20,.12);
+
+      --nav-h:  72px;
+      --py:     clamp(72px, 9vw, 120px);
+      --wrap:   1160px;
+      --gutter: clamp(20px, 5vw, 48px);
     }
 
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.25rem;
-      color: var(--black);
-      text-decoration: none;
-      letter-spacing: -0.01em;
+    /* ── LAYOUT ── */
+    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+    .section { padding: var(--py) 0; }
+
+    /* ── ANIMATIONS ── */
+    .au { opacity: 0; transform: translateY(24px); transition: opacity .65s cubic-bezier(.25,.46,.45,.94), transform .65s cubic-bezier(.25,.46,.45,.94); }
+    .au.in { opacity: 1; transform: none; }
+    .as { opacity: 0; transform: scale(.97); transition: opacity .6s ease, transform .6s ease; }
+    .as.in { opacity: 1; transform: none; }
+    .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s}
+    @media(prefers-reduced-motion:reduce){.au,.as{opacity:1;transform:none;transition:none}}
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; border-radius: var(--r-full);
+      font-size: .9rem; font-weight: 600; cursor: pointer;
+      border: 2px solid transparent; transition: all .2s ease;
+      white-space: nowrap; text-decoration: none;
+    }
+    .btn-p { background: var(--olive); color: var(--bg-off); border-color: var(--olive); }
+    .btn-p:hover { background: var(--olive-mid); border-color: var(--olive-mid); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(58,84,53,.3); }
+    .btn-o { background: transparent; color: var(--dark); border-color: var(--border); }
+    .btn-o:hover { border-color: var(--dark); }
+    .btn-sm { padding: 9px 20px; font-size: .82rem; }
+
+    /* ── COOKIE BANNER ── */
+    #cb {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--dark); color: var(--bg);
+      padding: 18px var(--gutter);
+      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+      box-shadow: 0 -4px 20px rgba(0,0,0,.2);
+      transform: translateY(100%); transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+    }
+    #cb.show { transform: translateY(0); }
+    #cb p { font-size: .82rem; line-height: 1.55; flex: 1; min-width: 180px; }
+    #cb .cl { color: var(--olive-lt); text-decoration: underline; cursor: pointer; background: none; border: none; font: inherit; }
+    .cb-btns { display: flex; gap: 8px; flex-shrink: 0; }
+    .cb-y { background: var(--olive); color: #fff; border: 2px solid var(--olive); border-radius: var(--r-full); padding: 8px 18px; font-size: .8rem; font-weight: 600; cursor: pointer; }
+    .cb-n { background: transparent; color: var(--bg); border: 2px solid rgba(247,242,234,.25); border-radius: var(--r-full); padding: 8px 18px; font-size: .8rem; font-weight: 600; cursor: pointer; }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      height: var(--nav-h); display: flex; align-items: center;
+      transition: background .3s, box-shadow .3s;
+    }
+    #nav.sc { background: rgba(253,249,244,.95); backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--border); }
+    .ni { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .nb { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nb img { height: 44px; width: 44px; border-radius: 50%; object-fit: contain; }
+    .bn { font-family: Georgia, serif; font-weight: 700; font-size: 1.05rem; color: var(--dark); }
+    .bs { font-size: .62rem; letter-spacing: .09em; text-transform: uppercase; color: var(--olive-mid); display: block; margin-top: 1px; }
+    .nl { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nl a { font-size: .875rem; font-weight: 500; color: var(--dark); transition: color .2s; }
+    .nl a:hover { color: var(--olive); }
+    .hb { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; background: none; border: none; }
+    .hb span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; transition: all .28s; }
+    .hb.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hb.open span:nth-child(2){opacity:0}
+    .hb.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .nd { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 899; background: var(--bg-off); border-bottom: 1px solid var(--border); padding: 16px var(--gutter) 24px; flex-direction: column; box-shadow: var(--sh-md); }
+    .nd.open { display: flex; }
+    .nd a { padding: 13px 0; font-size: .95rem; font-weight: 500; color: var(--dark); border-bottom: 1px solid var(--border); display: block; transition: color .2s; }
+    .nd a:last-child { border-bottom: none; }
+
+    /* ── HERO (split) ── */
+    #hero { min-height: 100dvh; display: grid; grid-template-columns: 3fr 2fr; padding-top: var(--nav-h); }
+
+    .hl {
+      background: var(--bg-off);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: clamp(48px,7vw,96px) clamp(28px,4vw,64px) clamp(48px,7vw,96px) var(--gutter);
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--olive-pale); border: 1px solid rgba(58,84,53,.15);
+      border-radius: var(--r-full); padding: 6px 14px 6px 10px;
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--olive); margin-bottom: 28px; width: fit-content;
+      animation: fIn .8s ease both;
+    }
+    .pill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--olive-lt); animation: pd 2.5s ease infinite; }
+    @keyframes pd { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+    .hh1 {
+      font-family: Georgia, serif; font-weight: 700;
+      font-size: clamp(3rem, 5.5vw, 5.2rem);
+      line-height: 1.06; letter-spacing: -.02em; color: var(--dark);
+      margin-bottom: 22px;
+      animation: fU .9s cubic-bezier(.25,.46,.45,.94) .1s both;
+    }
+    .hh1 em { font-style: italic; color: var(--olive); }
+    .hs {
+      font-size: clamp(.9rem,1.6vw,1.05rem); color: var(--text); line-height: 1.7;
+      max-width: 400px; margin-bottom: 40px;
+      animation: fU .9s cubic-bezier(.25,.46,.45,.94) .2s both;
+    }
+    .ha { display: flex; gap: 12px; flex-wrap: wrap; animation: fU .9s cubic-bezier(.25,.46,.45,.94) .32s both; }
+
+    .hr {
+      background: var(--olive);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 48px 36px; position: relative; overflow: hidden;
+    }
+    .hr::before {
+      content: ''; position: absolute;
+      width: 380px; height: 380px; border-radius: 50%;
+      border: 1px solid rgba(247,242,234,.06);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+    }
+    .hr::after {
+      content: ''; position: absolute;
+      width: 560px; height: 560px; border-radius: 50%;
+      border: 1px solid rgba(247,242,234,.03);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+    }
+    .logo-ring {
+      width: 136px; height: 136px; border-radius: 50%;
+      background: rgba(247,242,234,.1); border: 1.5px solid rgba(247,242,234,.18);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 28px; position: relative; z-index: 1;
+      animation: fl 6s ease-in-out infinite;
+    }
+    .logo-ring img { width: 108px; height: 108px; border-radius: 50%; object-fit: contain; }
+    @keyframes fl { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    .hero-tags { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 1; width: 100%; }
+    .htag {
+      background: rgba(247,242,234,.09); border: 1px solid rgba(247,242,234,.14);
+      border-radius: var(--r-md); padding: 12px 14px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .htag-ic {
+      width: 34px; height: 34px; border-radius: var(--r-sm);
+      background: rgba(247,242,234,.1); display: flex; align-items: center; justify-content: center;
+      color: rgba(247,242,234,.75); flex-shrink: 0;
+    }
+    .htag-v { color: var(--bg-off); font-family: Georgia,serif; font-size: 1.05rem; font-weight: 700; line-height: 1.1; }
+    .htag-l { color: rgba(247,242,234,.6); font-size: .78rem; margin-top: 1px; }
+
+    @keyframes fU { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+    @keyframes fIn { from{opacity:0} to{opacity:1} }
+
+    /* ── TRUST BAR ── */
+    .tbar { background: var(--dark); }
+    .tinner { display: flex; }
+    .titem { flex: 1; padding: 26px 16px; text-align: center; border-right: 1px solid rgba(255,255,255,.07); }
+    .titem:last-child { border-right: none; }
+    .tv { font-family: Georgia,serif; font-size: clamp(1.7rem,3vw,2.5rem); font-weight: 700; color: var(--bg); line-height: 1; margin-bottom: 3px; }
+    .td { font-size: .7rem; color: rgba(247,242,234,.35); letter-spacing: .05em; }
+
+    /* ── SECTION HEADERS ── */
+    .stag { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--olive-mid); margin-bottom: 10px; }
+    .sh2 { font-family: Georgia,serif; font-size: clamp(2rem,4vw,3.1rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; color: var(--dark); }
+
+    /* ── LEISTUNGEN ── */
+    #leistungen { background: var(--bg-off); }
+    .lh { margin-bottom: clamp(40px,6vw,64px); }
+    .lgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 16px; }
+    .lcard {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-lg);
+      padding: 30px 26px; transition: box-shadow .22s, transform .22s, border-color .22s;
+    }
+    .lcard:hover { box-shadow: var(--sh-md); transform: translateY(-3px); border-color: var(--olive-pale); }
+    .lic { width: 46px; height: 46px; background: var(--olive-pale); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; color: var(--olive); margin-bottom: 16px; }
+    .lt { font-family: Georgia,serif; font-size: 1.18rem; font-weight: 700; color: var(--dark); margin-bottom: 7px; }
+    .ld { font-size: .875rem; color: var(--text); line-height: 1.65; }
+
+    /* ── DARK OLIVE SECTION ── */
+    #dark-sec { background: var(--olive); position: relative; overflow: hidden; }
+    #dark-sec::before {
+      content: ''; position: absolute;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(122,155,92,.14) 0%, transparent 65%);
+      top: -120px; right: -80px; pointer-events: none;
+    }
+    .dsl { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px,7vw,96px); align-items: center; }
+    .dst h2 { font-family: Georgia,serif; font-size: clamp(2rem,4vw,3.1rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; color: var(--bg-off); margin-bottom: 18px; }
+    .dst h2 em { font-style: italic; color: rgba(247,242,234,.55); }
+    .dst p { font-size: .9rem; color: rgba(247,242,234,.65); line-height: 1.7; margin-bottom: 32px; max-width: 400px; }
+    .ditems { display: flex; flex-direction: column; }
+    .ditem { display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid rgba(247,242,234,.09); }
+    .ditem:last-child { border-bottom: none; }
+    .din { font-family: Georgia,serif; font-size: 1.4rem; font-weight: 700; color: rgba(247,242,234,.18); min-width: 34px; line-height: 1; }
+    .dtext h3 { font-size: .9rem; font-weight: 600; color: rgba(247,242,234,.88); margin-bottom: 2px; }
+    .dtext p { font-size: .8rem; color: rgba(247,242,234,.5); line-height: 1.55; }
+
+    /* Browser mockup */
+    .bmock { background: rgba(247,242,234,.07); border: 1px solid rgba(247,242,234,.11); border-radius: var(--r-xl); padding: 28px; }
+    .bbar { display: flex; align-items: center; gap: 7px; margin-bottom: 18px; }
+    .bdot { width: 10px; height: 10px; border-radius: 50%; background: rgba(247,242,234,.18); }
+    .burl { flex: 1; height: 22px; background: rgba(247,242,234,.07); border-radius: var(--r-full); margin-left: 8px; }
+    .bcontent { background: rgba(247,242,234,.04); border-radius: var(--r-md); padding: 18px; }
+    .bline { height: 10px; background: rgba(247,242,234,.11); border-radius: var(--r-full); margin-bottom: 9px; }
+    .bblock { height: 70px; background: rgba(247,242,234,.07); border-radius: var(--r-md); margin: 14px 0; }
+    .bgrid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 14px; }
+    .bgrid3-item { height: 52px; background: rgba(247,242,234,.07); border-radius: var(--r-md); }
+    .bcap { text-align: center; margin-top: 14px; font-size: .75rem; color: rgba(247,242,234,.3); letter-spacing: .05em; }
+
+    /* ── PREISE ── */
+    #preise { background: var(--bg); }
+    .ph { margin-bottom: clamp(40px,6vw,64px); }
+    .psub { margin-top: 10px; font-size: .88rem; color: var(--text); max-width: 380px; line-height: 1.6; }
+    .pgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(182px,1fr)); gap: 13px; }
+    .pcard { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-lg); padding: 24px 20px; transition: transform .22s, box-shadow .22s, border-color .22s; }
+    .pcard:hover { transform: translateY(-3px); box-shadow: var(--sh-md); border-color: var(--olive-pale); }
+    .pcard.star { background: var(--olive); border-color: var(--olive); }
+    .pcard.star .plbl, .pcard.star .pnote { color: rgba(247,242,234,.6); }
+    .pcard.star .pnum, .pcard.star .pper { color: var(--bg-off); }
+    .pcard.star .pic { background: rgba(247,242,234,.12); color: var(--bg-off); }
+    .pic { width: 36px; height: 36px; border-radius: var(--r-sm); background: var(--olive-pale); display: flex; align-items: center; justify-content: center; color: var(--olive); margin-bottom: 14px; }
+    .plbl { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text); margin-bottom: 7px; }
+    .pnum { font-family: Georgia,serif; font-size: 1.9rem; font-weight: 700; color: var(--dark); line-height: 1; margin-bottom: 2px; }
+    .pnum sup { font-size: .85rem; vertical-align: super; }
+    .pper { font-size: .74rem; color: var(--text); margin-bottom: 8px; }
+    .pnote { font-size: .8rem; color: var(--text); line-height: 1.5; }
+    .pnote-box { margin-top: 22px; background: var(--olive-pale); border-left: 3px solid var(--olive); border-radius: 0 var(--r-md) var(--r-md) 0; padding: 14px 18px; font-size: .875rem; color: var(--dark); line-height: 1.6; }
+    .pnote-box strong { color: var(--olive); }
+
+    /* ── ABLAUF ── */
+    #ablauf { background: var(--bg-off); }
+    .ah { margin-bottom: clamp(40px,6vw,64px); }
+    .agrid { display: grid; grid-template-columns: repeat(4,1fr); position: relative; }
+    .agrid::before { content: ''; position: absolute; top: 25px; left: 12.5%; right: 12.5%; height: 1px; background: linear-gradient(to right, transparent, var(--border), var(--border), transparent); }
+    .astep { padding: 0 16px 0; text-align: center; }
+    .anum-w { width: 50px; height: 50px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--bg-off); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; position: relative; z-index: 1; }
+    .anum { font-family: Georgia,serif; font-size: 1.1rem; font-weight: 700; color: var(--olive); }
+    .atitle { font-weight: 600; font-size: .9rem; color: var(--dark); margin-bottom: 7px; }
+    .adesc { font-size: .8rem; color: var(--text); line-height: 1.6; }
+
+    /* ── KONTAKT ── */
+    #kontakt { background: var(--bg); }
+    .kl { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px,7vw,96px); align-items: start; }
+    .kinfo { padding-top: 4px; }
+    .kh2 { font-family: Georgia,serif; font-size: clamp(2rem,4vw,3rem); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; color: var(--dark); margin-bottom: 14px; margin-top: 10px; }
+    .kh2 em { font-style: italic; color: var(--olive); }
+    .ksub { font-size: .875rem; color: var(--text); line-height: 1.7; margin-bottom: 28px; max-width: 360px; }
+    .klinks { display: flex; flex-direction: column; gap: 10px; }
+    .klink { display: flex; align-items: center; gap: 12px; color: var(--dark); font-size: .875rem; font-weight: 500; padding: 12px 14px; background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-md); transition: border-color .2s, box-shadow .2s; }
+    .klink:hover { border-color: var(--olive); box-shadow: var(--sh-card); }
+    .kic { width: 36px; height: 36px; border-radius: var(--r-sm); background: var(--olive-pale); display: flex; align-items: center; justify-content: center; color: var(--olive); flex-shrink: 0; }
+    .fcard { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--r-xl); padding: clamp(26px,4vw,42px); }
+    .fcard h3 { font-family: Georgia,serif; font-size: 1.25rem; font-weight: 700; color: var(--dark); margin-bottom: 22px; }
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .fg { margin-bottom: 14px; }
+    .fg label { display: block; font-size: .73rem; font-weight: 600; color: var(--dark); margin-bottom: 5px; letter-spacing: .04em; }
+    .fg input, .fg textarea, .fg select { width: 100%; padding: 10px 13px; border: 1.5px solid var(--border); border-radius: var(--r-md); font-family: inherit; font-size: .875rem; color: var(--dark); background: var(--white); transition: border-color .2s; outline: none; appearance: none; }
+    .fg input:focus, .fg textarea:focus, .fg select:focus { border-color: var(--olive); }
+    .fg textarea { resize: vertical; min-height: 100px; }
+    .fsub { width: 100%; justify-content: center; border: none; padding: 13px 24px; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--dark); padding: 52px 0 28px; }
+    .fi { display: flex; flex-direction: column; gap: 40px; }
+    .ftop { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .fbrand img { height: 48px; width: 48px; border-radius: 50%; object-fit: contain; opacity: .7; }
+    .fbname { margin-top: 8px; font-family: Georgia,serif; font-size: .82rem; color: rgba(247,242,234,.38); }
+    .fcols { display: flex; gap: 52px; flex-wrap: wrap; }
+    .fcol h4 { font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(247,242,234,.22); margin-bottom: 13px; }
+    .fcol ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .fcol a, .fcol button { font-size: .83rem; color: rgba(247,242,234,.42); transition: color .2s; background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }
+    .fcol a:hover, .fcol button:hover { color: var(--bg); }
+    .fbot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .fcp { font-size: .76rem; color: rgba(247,242,234,.22); }
+    .fleg { display: flex; gap: 18px; }
+    .fleg button { font-size: .76rem; color: rgba(247,242,234,.22); background: none; border: none; cursor: pointer; font-family: inherit; transition: color .2s; }
+    .fleg button:hover { color: var(--bg); }
+
+    /* ── MODALS ── */
+    .mo { position: fixed; inset: 0; z-index: 2000; background: rgba(28,26,20,.55); display: none; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; backdrop-filter: blur(6px); }
+    .mo.open { display: flex; }
+    .md { background: var(--bg-off); border-radius: var(--r-xl); max-width: 680px; width: 100%; padding: clamp(30px,5vw,50px); position: relative; margin: auto; animation: fU .3s ease; }
+    .mx { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border); background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--dark); font-size: 1.1rem; transition: all .2s; }
+    .mx:hover { background: var(--border); }
+    .md h2 { font-family: Georgia,serif; font-size: 1.65rem; color: var(--dark); margin-bottom: 18px; }
+    .md h3 { font-size: .92rem; font-weight: 600; color: var(--dark); margin: 18px 0 5px; }
+    .md p { font-size: .86rem; color: var(--text); line-height: 1.7; margin-bottom: 8px; }
+    .md a { color: var(--olive); text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px) {
+      #hero { grid-template-columns: 1fr; }
+      .hr { min-height: 280px; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 36px 24px; }
+      .logo-ring { width: 88px; height: 88px; margin-bottom: 0; flex-shrink: 0; }
+      .logo-ring img { width: 68px; height: 68px; }
+      .dsl { grid-template-columns: 1fr; }
+      .kl { grid-template-columns: 1fr; }
+      .agrid { grid-template-columns: 1fr 1fr; }
+      .agrid::before { display: none; }
+      .tinner { flex-direction: column; }
+      .titem { border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); }
+      .titem:last-child { border-bottom: none; }
+      .ftop { flex-direction: column; }
+      .fbot { flex-direction: column; text-align: center; }
+    }
+    @media(max-width:600px) {
+      .nl, .ncta { display: none; }
+      .hb { display: flex; }
+      .hl { padding: clamp(32px,5vw,48px) var(--gutter); }
+      .frow { grid-template-columns: 1fr; }
+      .agrid { grid-template-columns: 1fr; }
+      .hr { flex-direction: column; }
+      .fcols { gap: 28px; }
     }
 
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      color: var(--gray);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--black); }
-
-    .nav-cta {
-      background: var(--sage-dark) !important;
-      color: var(--white) !important;
-      padding: 0.55rem 1.3rem;
-      border-radius: 100px;
-      transition: opacity 0.2s !important;
-    }
-    .nav-cta:hover { opacity: 0.85; }
-
-    .nav-logo-img {
-      height: 44px;
-      width: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid var(--border);
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 8rem 2.5rem 5rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-blob {
-      position: absolute;
-      top: -150px; right: -150px;
-      width: 550px; height: 550px;
-      background: radial-gradient(circle, #c8d9c8 0%, transparent 70%);
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: drift 12s ease-in-out infinite;
-    }
-
-    .hero-blob-2 {
-      position: absolute;
-      bottom: -100px; left: -100px;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, #dce4dc 0%, transparent 70%);
-      border-radius: 50%;
-      opacity: 0.5;
-      animation: drift 15s ease-in-out infinite reverse;
-    }
-
-    @keyframes drift {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(20px, -25px); }
-    }
-
-    .hero-inner { max-width: 860px; position: relative; z-index: 1; }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--sage-light);
-      color: var(--sage-dark);
-      padding: 0.4rem 1rem;
-      border-radius: 100px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      margin-bottom: 2rem;
-      animation: fadeUp 0.8s ease both;
-      border: 1px solid #c4d4c4;
-    }
-
-    .hero-badge::before {
-      content: '';
-      width: 7px; height: 7px;
-      background: var(--sage-dark);
-      border-radius: 50%;
-      animation: pulse 2.5s ease infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .hero h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.8rem, 7.5vw, 6rem);
-      line-height: 1.06;
-      color: var(--black);
-      animation: fadeUp 0.8s ease 0.1s both;
-      letter-spacing: -0.02em;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--sage-dark);
-    }
-
-    .hero-sub {
-      margin-top: 1.75rem;
-      font-size: 1.05rem;
-      color: var(--gray);
-      max-width: 520px;
-      line-height: 1.75;
-      animation: fadeUp 0.8s ease 0.2s both;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2.5rem;
-      flex-wrap: wrap;
-      animation: fadeUp 0.8s ease 0.3s both;
-    }
-
-    .btn-primary {
-      background: var(--sage-dark);
-      color: var(--white);
-      padding: 0.85rem 1.9rem;
-      border-radius: 100px;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.92rem;
-      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,107,74,0.25); }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--black);
-      padding: 0.85rem 1.9rem;
-      border-radius: 100px;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.92rem;
-      border: 1.5px solid var(--border);
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .btn-secondary:hover { border-color: var(--sage-dark); transform: translateY(-2px); }
-
-    .hero-stats {
-      display: flex;
-      gap: 3rem;
-      margin-top: 4rem;
-      padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
-      animation: fadeUp 0.8s ease 0.4s both;
-      flex-wrap: wrap;
-    }
-
-    .stat-number {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2rem;
-      color: var(--black);
-    }
-    .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.4; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* SECTIONS */
-    section { padding: 6rem 2.5rem; }
-    .section-inner { max-width: 1000px; margin: 0 auto; }
-
-    .section-tag {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--sage-dark);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
-      line-height: 1.2;
-      margin-bottom: 3rem;
-      color: var(--black);
-    }
-    .section-title em { font-style: italic; color: var(--sage-dark); }
-
-    /* SERVICES */
-    .services { background: var(--white); }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .service-card {
-      background: var(--cream);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.75rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .service-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
-    .service-icon { font-size: 1.75rem; margin-bottom: 1rem; }
-    .service-card h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 0.6rem; }
-    .service-card p { font-size: 0.88rem; color: var(--gray); line-height: 1.75; }
-
-    /* PRICING */
-    .pricing { background: var(--cream); }
-
-    .pricing-intro {
-      background: var(--sage-light);
-      border: 1px solid #c4d4c4;
-      border-radius: 14px;
-      padding: 1.5rem 2rem;
-      margin-bottom: 2.5rem;
-      font-size: 0.9rem;
-      color: var(--sage-dark);
-      line-height: 1.7;
-    }
-
-    .pricing-intro strong { font-weight: 600; }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .price-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.75rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .price-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
-
-    .price-card.featured {
-      background: var(--sage-dark);
-      border-color: var(--sage-dark);
-      color: var(--white);
-    }
-    .price-card.featured .price-label,
-    .price-card.featured .price-desc,
-    .price-card.featured .price-note { color: rgba(255,255,255,0.6); }
-    .price-card.featured .price-desc { border-top-color: rgba(255,255,255,0.2); }
-
-    .price-badge {
-      display: inline-block;
-      background: var(--sage-light);
-      color: var(--sage-dark);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.28rem 0.7rem;
-      border-radius: 100px;
-      margin-bottom: 1rem;
-      border: 1px solid #c4d4c4;
-    }
-
-    .price-card.featured .price-badge {
-      background: rgba(255,255,255,0.15);
-      color: var(--white);
-      border-color: rgba(255,255,255,0.3);
-    }
-
-    .price-label { font-size: 0.78rem; color: var(--gray); margin-bottom: 0.4rem; }
-    .price-amount {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2.8rem;
-      line-height: 1;
-      margin-bottom: 0.4rem;
-    }
-    .price-amount span { font-size: 1.1rem; font-family: 'DM Sans', sans-serif; }
-    .price-desc {
-      font-size: 0.84rem;
-      color: var(--gray);
-      line-height: 1.65;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
-    }
-    .price-note { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.6rem; }
-
-    /* HOW */
-    .how { background: var(--white); }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-    }
-
-    .step { text-align: center; padding: 1.25rem; }
-    .step-number {
-      width: 46px; height: 46px;
-      background: var(--sage-light);
-      border: 1px solid #c4d4c4;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.2rem;
-      color: var(--sage-dark);
-      margin: 0 auto 1.25rem;
-    }
-    .step h3 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 0.5rem; }
-    .step p { font-size: 0.84rem; color: var(--gray); line-height: 1.7; }
-
-    /* PORTFOLIO */
-    .portfolio { background: var(--cream); }
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .portfolio-card {
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--white);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .portfolio-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
-
-    .portfolio-preview {
-      height: 190px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.5rem;
-      font-family: 'DM Serif Display', serif;
-      font-style: italic;
-    }
-
-    .portfolio-preview.cafe { background: linear-gradient(135deg, #2a3a2a, #4a6b4a); color: #c8d9c8; }
-    .portfolio-preview.restaurant { background: linear-gradient(135deg, #2a2a3a, #3a3a6b); color: #c8c8d9; }
-    .portfolio-preview.shop { background: linear-gradient(135deg, #3a2a2a, #6b4a4a); color: #d9c8c8; }
-
-    .portfolio-info { padding: 1.25rem; }
-    .portfolio-info h3 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; margin-bottom: 0.25rem; }
-    .portfolio-info p { font-size: 0.78rem; color: var(--gray); }
-    .portfolio-tag {
-      display: inline-block;
-      background: var(--sage-light);
-      color: var(--sage-dark);
-      font-size: 0.68rem;
-      padding: 0.22rem 0.6rem;
-      border-radius: 100px;
-      margin-top: 0.7rem;
-      border: 1px solid #c4d4c4;
-    }
-
-    /* CONTACT */
-    .contact { background: #1e2a1e; color: var(--white); }
-    .contact .section-tag { color: #8aaa8a; }
-    .contact .section-title { color: var(--white); }
-    .contact .section-title em { color: #8aaa8a; }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-    }
-
-    .contact-item h4 {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #8aaa8a;
-      margin-bottom: 0.7rem;
-    }
-
-    .contact-item a, .contact-item p {
-      color: var(--white);
-      text-decoration: none;
-      font-size: 0.97rem;
-      transition: color 0.2s;
-      line-height: 1.5;
-    }
-    .contact-item a:hover { color: #c8d9c8; }
-
-    .contact-cta {
-      margin-top: 3.5rem;
-      padding-top: 3rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      text-align: center;
-    }
-    .contact-cta p {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.4rem, 3vw, 2.3rem);
-      margin-bottom: 1.5rem;
-      color: var(--white);
-    }
-
-    .btn-sage {
-      background: var(--sage-light);
-      color: var(--sage-dark);
-      padding: 0.85rem 2rem;
-      border-radius: 100px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.92rem;
-      display: inline-block;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-sage:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(138,158,138,0.3); }
-
-    footer {
-      background: #141e14;
-      color: rgba(255,255,255,0.25);
-      text-align: center;
-      padding: 1.75rem;
-      font-size: 0.78rem;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* HERO LAYOUT */
-    .hero-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      max-width: 900px;
-    }
-
-    .hero-text {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .hero-logo-wrap {
-      flex-shrink: 0;
-    }
-
-    .hero-logo-img {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
-      display: block;
-    }
-
-    @media (max-width: 768px) {
-      /* NAV */
-      nav { padding: 0.9rem 1.25rem; }
-      .nav-links { display: none; }
-      .nav-logo { font-size: 1.1rem; }
-
-      /* HERO */
-      .hero { padding: 6rem 1.25rem 3rem; min-height: auto; }
-      .hero-inner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
-      .hero-logo-wrap { width: 100%; display: flex; justify-content: center; }
-      .hero-logo-img { width: 140px; height: 140px; }
-      .hero h1 { font-size: 2.2rem; letter-spacing: -0.01em; }
-      .hero-sub { font-size: 0.92rem; margin-top: 1rem; }
-      .hero-badge { font-size: 0.72rem; margin-bottom: 1.25rem; }
-      .hero-blob { width: 250px; height: 250px; top: -60px; right: -60px; opacity: 0.2; }
-      .hero-blob-2 { width: 180px; height: 180px; opacity: 0.1; }
-      .hero-buttons { flex-direction: column; gap: 0.75rem; margin-top: 1.75rem; }
-      .btn-primary, .btn-secondary { width: 100%; text-align: center; padding: 0.85rem 1rem; }
-      .hero-stats { gap: 1.25rem; margin-top: 2.5rem; padding-top: 1.75rem; }
-      .hero-stats .stat-number { font-size: 1.5rem; }
-      .hero-stats .stat-label { font-size: 0.72rem; }
-
-      /* SECTIONS */
-      section { padding: 3rem 1.25rem; }
-      .section-title { font-size: 1.7rem; margin-bottom: 2rem; }
-      .section-tag { font-size: 0.68rem; }
-
-      /* SERVICES */
-      .services-grid { grid-template-columns: 1fr; gap: 1rem; }
-      .service-card { padding: 1.25rem; }
-      .service-icon { font-size: 1.5rem; }
-      .service-card h3 { font-size: 1.1rem; }
-
-      /* PRICING */
-      .pricing-intro { padding: 1rem 1.25rem; font-size: 0.85rem; }
-      .pricing-grid { grid-template-columns: 1fr; gap: 1rem; }
-      .price-card { padding: 1.5rem; }
-      .price-amount { font-size: 2.2rem; }
-
-      /* STEPS */
-      .steps { grid-template-columns: 1fr; gap: 1.25rem; }
-      .step { padding: 1rem; }
-
-      /* CONTACT */
-      .contact-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-      .contact-cta p { font-size: 1.3rem; }
-      .btn-sage { width: 100%; text-align: center; }
-
-      /* IMPRESSUM / DATENSCHUTZ */
-      #impressum, #datenschutz { padding: 4rem 1.25rem 3rem; }
-    }
-
-    @media (max-width: 400px) {
-      .hero h1 { font-size: 1.9rem; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .hero-stats { flex-direction: column; gap: 1rem; }
-    }
+    .skip { position: absolute; top: -40px; left: 8px; background: var(--olive); color: var(--bg-off); padding: 8px 14px; border-radius: var(--r-md); font-size: .85rem; font-weight: 600; z-index: 9999; transition: top .2s; }
+    .skip:focus { top: 8px; }
   </style>
 </head>
 <body>
-  <div id="top" style="position:fixed;top:0;left:0;"></div>
 
-  <nav>
-    <a href="#" class="nav-logo">Theos Webdesign</a>
-    <ul class="nav-links">
+<a class="skip" href="#leistungen">Zum Inhalt springen</a>
+
+<!-- COOKIE BANNER -->
+<div id="cb" role="dialog" aria-label="Cookie-Einstellungen">
+  <p>Nur technisch notwendige Cookies. Kein Tracking.
+    <button class="cl" onclick="openModal('ds')">Datenschutz lesen</button>
+  </p>
+  <div class="cb-btns">
+    <button class="cb-n" onclick="cset('no')">Nur notwendige</button>
+    <button class="cb-y" onclick="cset('yes')">Akzeptieren</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav" aria-label="Hauptnavigation">
+  <div class="wrap ni">
+    <a href="#" class="nb" aria-label="Theos Webdesign">
+      <img src="logo.png" alt="Theos Webdesign" width="44" height="44">
+      <div><span class="bn">Theos Webdesign</span><span class="bs">Websites für lokale Unternehmen</span></div>
+    </a>
+    <ul class="nl" role="list">
       <li><a href="#leistungen">Leistungen</a></li>
       <li><a href="#preise">Preise</a></li>
       <li><a href="#ablauf">Ablauf</a></li>
-      <li><a href="#kontakt" class="nav-cta">Kontakt</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
     </ul>
+    <a href="#kontakt" class="btn btn-p btn-sm ncta">Jetzt anfragen</a>
+    <button class="hb" id="hb" aria-label="Menü öffnen" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nd" id="nd">
+  <a href="#leistungen" onclick="cdr()">Leistungen</a>
+  <a href="#preise" onclick="cdr()">Preise</a>
+  <a href="#ablauf" onclick="cdr()">Ablauf</a>
+  <a href="#kontakt" onclick="cdr()">Kontakt</a>
+  <a href="mailto:theopohl@icloud.com" onclick="cdr()">theopohl@icloud.com</a>
+</div>
 
-  </nav>
-
-  <section class="hero">
-
-    <div class="hero-blob"></div>
-    <div class="hero-blob-2"></div>
-    <div class="hero-inner">
-      <div class="hero-text">
-        <div class="hero-badge">Verfügbar für neue Projekte</div>
-        <h1>Deine Website.<br><em>Einmal bezahlen.</em><br>Fertig.</h1>
-        <p class="hero-sub">Ich erstelle professionelle Websites für Cafés, Restaurants und kleine Unternehmen – günstig, ohne monatliches Abo und ohne versteckte Kosten.</p>
-        <div class="hero-buttons">
-          <a href="#kontakt" class="btn-primary">Jetzt anfragen</a>
-          <a href="#preise" class="btn-secondary">Preise ansehen</a>
+<!-- HERO -->
+<section id="hero" aria-labelledby="hh1">
+  <div class="hl">
+    <div class="pill"><span class="pill-dot" aria-hidden="true"></span>Verfügbar für neue Projekte</div>
+    <h1 class="hh1" id="hh1">Deine Website.<br><em>Einmal bezahlen.</em><br>Fertig.</h1>
+    <p class="hs">Ich erstelle professionelle Websites für Cafés, Restaurants und kleine Unternehmen – günstig, persönlich und ohne monatliches Abo.</p>
+    <div class="ha">
+      <a href="#kontakt" class="btn btn-p">Jetzt anfragen</a>
+      <a href="#preise" class="btn btn-o">Preise ansehen</a>
+    </div>
+  </div>
+  <div class="hr" aria-hidden="true">
+    <div class="logo-ring"><img src="logo.png" alt=""></div>
+    <div class="hero-tags">
+      <div class="htag">
+        <div class="htag-ic">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75"/></svg>
         </div>
-        <div class="hero-stats">
-          <div class="stat-item">
-            <div class="stat-number">89€</div>
-            <div class="stat-label">Grundpreis</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">0€</div>
-            <div class="stat-label">Monatliches Abo</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">1x</div>
-            <div class="stat-label">Jahreshosting –<br>kein Monatsbeitrag</div>
-          </div>
-        </div>
+        <div><div class="htag-v">ab 75 €</div><div class="htag-l">einmalig, kein Abo</div></div>
       </div>
-      <div class="hero-logo-wrap">
-        <img src="foto.PNG" alt="Theos Webdesign Logo" class="hero-logo-img"/>
+      <div class="htag">
+        <div class="htag-ic">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+        </div>
+        <div><div class="htag-v">1:1 Beratung</div><div class="htag-l">direkt mit mir</div></div>
+      </div>
+      <div class="htag">
+        <div class="htag-ic">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/></svg>
+        </div>
+        <div><div class="htag-v">Mobile-First</div><div class="htag-l">auf jedem Gerät perfekt</div></div>
       </div>
     </div>
+  </div>
+</section>
 
-  </section>
+<!-- TRUST BAR -->
+<div class="tbar"><div class="wrap"><div class="tinner">
+  <div class="titem au"><div class="tv">75 €</div><div class="td">ab diesem Preis</div></div>
+  <div class="titem au d1"><div class="tv">0 €</div><div class="td">monatliches Abo</div></div>
+  <div class="titem au d2"><div class="tv">100 %</div><div class="td">persönlicher Kontakt</div></div>
+</div></div></div>
 
-  <section id="leistungen" class="services">
-    <div class="section-inner reveal">
-      <p class="section-tag">Was ich anbiete</p>
-      <h2 class="section-title">Alles was du<br><em>brauchst</em></h2>
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">🎨</div>
-          <h3>Website Erstellung</h3>
-          <p>Moderne, professionelle Website die auf allen Geräten perfekt aussieht – Handy, Tablet und Computer.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">✏️</div>
-          <h3>Änderungen & Updates</h3>
-          <p>Öffnungszeiten geändert? Neues Foto? Ich kümmere mich unkompliziert um alle Änderungen – auf Anfrage.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">🔍</div>
-          <h3>SEO Optimierung</h3>
-          <p>Deine Website wird so aufgebaut dass sie bei Google gefunden wird – mehr Kunden durch bessere Sichtbarkeit.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">🌐</div>
-          <h3>Domain Einrichtung</h3>
-          <p>Ich kümmere mich um alles Technische. Du bekommst deine eigene Adresse wie restaurant-muster.de</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">📱</div>
-          <h3>Mobile First Design</h3>
-          <p>Die meisten Besucher kommen über das Handy. Deine Website sieht auf jedem Bildschirm perfekt aus.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">💰</div>
-          <h3>Kein monatliches Abo</h3>
-          <p>Das Hosting wird einmal jährlich bezahlt – keine monatlichen Überraschungen oder laufenden Kosten.</p>
-        </div>
+<!-- LEISTUNGEN -->
+<section id="leistungen" class="section" aria-labelledby="lh2">
+  <div class="wrap">
+    <div class="lh">
+      <span class="stag au">Für wen bin ich da?</span>
+      <h2 id="lh2" class="sh2 au d1">Die richtige Website<br>für dein Unternehmen.</h2>
+    </div>
+    <div class="lgrid">
+      <div class="lcard au">
+        <div class="lic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg></div>
+        <h3 class="lt">Cafés &amp; Restaurants</h3>
+        <p class="ld">Speisekarte, Öffnungszeiten, Atmosphäre – alles auf einen Blick. Damit Gäste dich finden, bevor sie woanders essen gehen.</p>
+      </div>
+      <div class="lcard au d1">
+        <div class="lic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/></svg></div>
+        <h3 class="lt">Handwerker &amp; Dienstleister</h3>
+        <p class="ld">Vertrauen entsteht online, bevor du den ersten Satz sagst. Eine professionelle Website macht den Unterschied.</p>
+      </div>
+      <div class="lcard au d2">
+        <div class="lic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.375.375 0 00.375-.375v-1.5a.375.375 0 00-.375-.375h-3.75a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375z"/></svg></div>
+        <h3 class="lt">Boutiquen &amp; Einzelhandel</h3>
+        <p class="ld">Zeig was du hast. Produkte, Preise, Öffnungszeiten – ansprechend in Szene gesetzt.</p>
+      </div>
+      <div class="lcard au d3">
+        <div class="lic"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"/></svg></div>
+        <h3 class="lt">Und viele mehr</h3>
+        <p class="ld">Vom Friseursalon bis zur Zahnarztpraxis. Wenn du ein Unternehmen hast, bekommst du eine Website, die dazu passt.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="preise" class="pricing">
-    <div class="section-inner reveal">
-      <p class="section-tag">Transparente Preise</p>
-      <h2 class="section-title">Kein Abo.<br><em>Nur zahlen was du brauchst.</em></h2>
-      <div class="pricing-intro">
-        <strong>So funktioniert es:</strong> Du zahlst einmalig für die Website-Erstellung. Das Hosting wird einmal pro Jahr bezahlt – nicht monatlich. Änderungen danach werden einzeln berechnet, nur wenn du sie brauchst.
-      </div>
-      <div class="pricing-grid">
-        <div class="price-card featured">
-          <div class="price-badge">Einstieg</div>
-          <p class="price-label">Website Erstellung</p>
-          <div class="price-amount"><span>ab </span>89€</div>
-          <p class="price-desc">Komplette Website mit allen Seiten und mobilfreundlichem Design. Zusätzlich kommt das Jahreshosting dazu.</p>
-          <p class="price-note">Einmalige Zahlung · Kein monatliches Abo</p>
-        </div>
-        <div class="price-card">
-          <p class="price-label">Hosting</p>
-          <div class="price-amount"><span>~</span>12€</div>
-          <p class="price-desc">Das Hosting wird einmal pro Jahr bezahlt – nicht monatlich. So hast du Ruhe für ein ganzes Jahr.</p>
-          <p class="price-note">Pro Jahr · Keine monatlichen Kosten</p>
-        </div>
-        <div class="price-card">
-          <p class="price-label">Kleine Änderung</p>
-          <div class="price-amount"><span>ab </span>20€</div>
-          <p class="price-desc">Text ändern, neues Foto einfügen, Öffnungszeiten aktualisieren – schnell und unkompliziert.</p>
-          <p class="price-note">Pro Änderung · Nur wenn nötig</p>
-        </div>
-        <div class="price-card">
-          <p class="price-label">Größere Änderung</p>
-          <div class="price-amount"><span>ab </span>40€</div>
-          <p class="price-desc">Neue Seite hinzufügen, komplett neuen Bereich gestalten oder ein größeres Redesign.</p>
-          <p class="price-note">Pro Änderung · Auf Anfrage</p>
-        </div>
-      </div>
+
+<!-- PREISE -->
+<section id="preise" class="section" aria-labelledby="ph2">
+  <div class="wrap">
+    <div class="ph">
+      <span class="stag au">Preise ansehen</span>
+      <h2 id="ph2" class="sh2 au d1">Fair berechnet.<br>Keine Überraschungen.</h2>
+      <p class="psub au d2">Einmalig zahlen, fertig. Kein Abo, keine versteckten Kosten.</p>
     </div>
-  </section>
-
-  <section id="ablauf" class="how">
-    <div class="section-inner reveal">
-      <p class="section-tag">So einfach geht's</p>
-      <h2 class="section-title">Deine Website<br><em>in 4 Schritten</em></h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-number">1</div>
-          <h3>Kontakt aufnehmen</h3>
-          <p>Schreib mir per WhatsApp oder E-Mail was du brauchst. Ich melde mich zeitnah bei dir.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <h3>Infos & Bezahlung</h3>
-          <p>Du schickst mir Logo, Fotos und alle wichtigen Infos. Bezahlung läuft sicher vorab.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <h3>Website erstellen</h3>
-          <p>Ich erstelle deine Website – modern, professionell und auf dein Unternehmen zugeschnitten.</p>
-        </div>
-        <div class="step">
-          <div class="step-number">4</div>
-          <h3>Online gehen</h3>
-          <p>Deine Website geht online. Änderungen danach? Einfach melden – ich erledige alles schnell.</p>
-        </div>
-      </div>
+    <div class="pgrid">
+      <div class="pcard star as"><div class="pic"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"/></svg></div><div class="plbl">Website-Erstellung</div><div class="pnum"><sup>ab </sup>75<sup> €</sup></div><div class="pper">einmalig</div><div class="pnote">Design, Entwicklung und Launch. Alles aus einer Hand.</div></div>
+      <div class="pcard as d1"><div class="pic"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg></div><div class="plbl">Hosting</div><div class="pnum"><sup>ca. </sup>12<sup> €</sup></div><div class="pper">pro Jahr</div><div class="pnote">Zuverlässig und schnell.</div></div>
+      <div class="pcard as d2"><div class="pic"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg></div><div class="plbl">Kleine Änderungen</div><div class="pnum"><sup>ab </sup>15<sup> €</sup></div><div class="pper">einmalig</div><div class="pnote">Texte, Bilder, Öffnungszeiten.</div></div>
+      <div class="pcard as d3"><div class="pic"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div class="plbl">Größere Änderungen</div><div class="pnum"><sup>ab </sup>40<sup> €</sup></div><div class="pper">einmalig</div><div class="pnote">Neue Seiten, Layout, Erweiterungen.</div></div>
+      <div class="pcard as d4"><div class="pic"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg></div><div class="plbl">Domain-Einrichtung</div><div class="pnum">20<sup> €</sup></div><div class="pper">einmalig</div><div class="pnote">Wunschdomain einrichten und verbinden.</div></div>
     </div>
-  </section>
+    <div class="pnote-box au"><strong>Kein monatliches Abo.</strong> Du zahlst nur, was du wirklich brauchst. Preise sind Richtwerte – ich erstelle dir gerne ein kostenloses Angebot.</div>
+  </div>
+</section>
 
-
-  <section id="kontakt" class="contact">
-    <div class="section-inner reveal">
-      <p class="section-tag">Kontakt</p>
-      <h2 class="section-title">Lass uns<br><em>sprechen</em></h2>
-      <div class="contact-grid">
-        <div class="contact-item">
-          <h4>Telefon</h4>
-          <a href="tel:016097806831">0160 97806831</a>
-        </div>
-        <div class="contact-item">
-          <h4>E-Mail</h4>
-          <a href="mailto:theopohl@icloud.com">theopohl@icloud.com</a>
-        </div>
-        <div class="contact-item">
-          <h4>Antwortzeit</h4>
-          <p>Innerhalb 24 Stunden</p>
-        </div>
-        <div class="contact-item">
-          <h4>Hosting</h4>
-          <p>Einmal jährlich –<br>kein Monatsabo</p>
-        </div>
-      </div>
-      <div class="contact-cta">
-        <p>Bereit für deine neue Website?</p>
-        <a href="tel:016097806831" class="btn-sage">Jetzt anfragen →</a>
-      </div>
+<!-- ABLAUF -->
+<section id="ablauf" class="section" aria-labelledby="ah2">
+  <div class="wrap">
+    <div class="ah"><h2 id="ah2" class="sh2 au">So läuft's ab.</h2></div>
+    <div class="agrid" role="list">
+      <div class="astep au" role="listitem"><div class="anum-w"><span class="anum">1</span></div><div class="atitle">Kurzes Gespräch</div><p class="adesc">Wir reden über dein Unternehmen, was du brauchst und was die Website leisten soll.</p></div>
+      <div class="astep au d1" role="listitem"><div class="anum-w"><span class="anum">2</span></div><div class="atitle">Konzept</div><p class="adesc">Ich zeige dir, wie deine Website aussehen wird, bevor ich anfange zu bauen.</p></div>
+      <div class="astep au d2" role="listitem"><div class="anum-w"><span class="anum">3</span></div><div class="atitle">Umsetzung</div><p class="adesc">Deine Website wird gebaut. Du kannst jederzeit Feedback geben.</p></div>
+      <div class="astep au d3" role="listitem"><div class="anum-w"><span class="anum">4</span></div><div class="atitle">Live!</div><p class="adesc">Deine Website geht online. Ich stehe auch danach für Fragen zur Verfügung.</p></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- IMPRESSUM -->
-  <section id="impressum" style="background:#f5f3ee; padding:6rem 2.5rem 4rem; display:none; scroll-margin-top:0;">
-    <div style="max-width:700px; margin:0 auto;">
-      <h2 style="font-family:'DM Serif Display',serif; font-size:2rem; margin-bottom:2rem;">Impressum</h2>
-      <div style="font-size:0.9rem; line-height:1.8; color:#444;">
-        <p><strong>Angaben gemäß § 5 TMG</strong></p><br>
-        <p>Theo Pohl<br>Kreuzstücken 22<br>24594 Hohenwestedt</p><br>
-        <p><strong>Kontakt:</strong><br>Telefon: 0160 97806831<br>E-Mail: theopohl@icloud.com</p><br>
-        <p><strong>Hinweis:</strong><br>Diese Website wird von einer Privatperson betrieben. Es besteht kein eingetragenes Gewerbe.</p>
-      </div>
+<!-- KONTAKT -->
+<section id="kontakt" class="section" aria-labelledby="kh2">
+  <div class="wrap" style="text-align:center;max-width:640px;">
+    <span class="stag au">Schreib mir</span>
+    <h2 id="kh2" class="kh2 au d1" style="text-align:center;">Bereit?<br><em>Dann lass uns starten.</em></h2>
+    <p class="ksub au d2" style="margin:0 auto 36px;text-align:center;">Schreib mir direkt – ich melde mich innerhalb von 24 Stunden. Kein Formular, kein Stress.</p>
+    <div class="klinks au d3" style="flex-direction:row;justify-content:center;gap:16px;flex-wrap:wrap;">
+      <a href="mailto:theopohl@icloud.com" class="klink" style="flex:1;min-width:220px;max-width:280px;">
+        <span class="kic"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg></span>
+        theopohl@icloud.com
+      </a>
+      <a href="tel:016097806831" class="klink" style="flex:1;min-width:220px;max-width:280px;">
+        <span class="kic"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg></span>
+        0160 97806831
+      </a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- DATENSCHUTZ -->
-  <section id="datenschutz" style="background:#eef0ee; padding:6rem 2.5rem 4rem; display:none; scroll-margin-top:0;">
-    <div style="max-width:700px; margin:0 auto;">
-      <h2 style="font-family:'DM Serif Display',serif; font-size:2rem; margin-bottom:2rem;">Datenschutzerklärung</h2>
-      <div style="font-size:0.9rem; line-height:1.8; color:#444;">
-        <p><strong>1. Verantwortlicher</strong><br>Theo Pohl, Kreuzstücken 22, 24594 Hohenwestedt<br>E-Mail: theopohl@icloud.com</p><br>
-        <p><strong>2. Hosting</strong><br>Diese Website wird über GitHub Pages gehostet. Anbieter ist GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA. GitHub kann Daten der Besucher erfassen. Weitere Infos: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" style="color:#4a6b4a;">GitHub Datenschutzerklärung</a>.</p><br>
-        <p><strong>3. Google Fonts</strong><br>Diese Website verwendet Google Fonts. Anbieter ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Beim Aufruf der Website wird eine Verbindung zu Googles Servern hergestellt. Dabei wird Ihre IP-Adresse an Google übermittelt. Grundlage ist Art. 6 Abs. 1 lit. f DSGVO. Weitere Infos: <a href="https://policies.google.com/privacy" style="color:#4a6b4a;">Google Datenschutzerklärung</a>.</p><br>
-        <p><strong>4. Ihre Rechte</strong><br>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Kontakt: theopohl@icloud.com</p><br>
-        <p><strong>5. Cookies</strong><br>Diese Website verwendet keine eigenen Cookies.</p>
-      </div>
+<!-- FOOTER -->
+<footer>
+  <div class="wrap fi">
+    <div class="ftop">
+      <div class="fbrand"><img src="logo.png" alt="Theos Webdesign" width="48" height="48"><div class="fbname">Theos Webdesign</div></div>
+      <nav class="fcols" aria-label="Footer">
+        <div class="fcol"><h4>Navigation</h4><ul role="list"><li><a href="#leistungen">Leistungen</a></li><li><a href="#preise">Preise</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#kontakt">Kontakt</a></li></ul></div>
+        <div class="fcol"><h4>Rechtliches</h4><ul role="list"><li><button onclick="openModal('imp')">Impressum</button></li><li><button onclick="openModal('ds')">Datenschutz</button></li></ul></div>
+        <div class="fcol"><h4>Kontakt</h4><ul role="list"><li><a href="mailto:theopohl@icloud.com">theopohl@icloud.com</a></li><li><a href="tel:016097806831">0160 97806831</a></li></ul></div>
+      </nav>
     </div>
-  </section>
+    <div class="fbot">
+      <p class="fcp">&copy; <span id="yr"></span> Theos Webdesign. Alle Rechte vorbehalten.</p>
+      <div class="fleg"><button onclick="openModal('imp')">Impressum</button><button onclick="openModal('ds')">Datenschutz</button></div>
+    </div>
+  </div>
+</footer>
 
-  <footer>
-    <p>© 2025 Theo Pohl Webdesign · Alle Rechte vorbehalten</p>
-    <p style="margin-top:0.5rem;">
-      <a href="#" onclick="showSection('impressum')" style="color:rgba(255,255,255,0.5); text-decoration:none; margin-right:1.5rem;">Impressum</a>
-      <a href="#" onclick="showSection('datenschutz')" style="color:rgba(255,255,255,0.5); text-decoration:none;">Datenschutz</a>
-    </p>
-  </footer>
+<!-- IMPRESSUM MODAL -->
+<div class="mo" id="modal-imp" role="dialog" aria-modal="true" aria-labelledby="imp-t">
+  <div class="md">
+    <button class="mx" onclick="closeModal('imp')" aria-label="Schließen">&times;</button>
+    <h2 id="imp-t">Impressum</h2>
+    <p>Angaben gem&auml;&szlig; &sect;&nbsp;5 TMG</p>
+    <h3>Anbieter</h3>
+    <p>Theo Pohl<br>Kreuzst&uuml;cken<br>24594 Hohenwestedt<br>Deutschland</p>
+    <h3>Kontakt</h3>
+    <p>Telefon: 0160 97806831<br>E-Mail: <a href="mailto:theopohl@icloud.com">theopohl@icloud.com</a></p>
+    <h3>Umsatzsteuer</h3>
+    <p>Gem&auml;&szlig; &sect;&nbsp;19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).</p>
+    <h3>EU-Streitschlichtung</h3>
+    <p>Plattform der EU-Kommission: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>. Wir sind zur Teilnahme nicht verpflichtet.</p>
+    <h3>Haftung</h3>
+    <p>F&uuml;r Inhalte externer Links &uuml;bernehmen wir keine Haftung.</p>
+  </div>
+</div>
 
-  <script>
-    // Fix scroll position - runs immediately before anything else
-    if (history.scrollRestoration) {
-      history.scrollRestoration = 'manual';
-    }
-    window.scrollTo(0, 0);
-    document.addEventListener('DOMContentLoaded', function() {
-      window.scrollTo(0, 0);
+<!-- DATENSCHUTZ MODAL -->
+<div class="mo" id="modal-ds" role="dialog" aria-modal="true" aria-labelledby="ds-t">
+  <div class="md">
+    <button class="mx" onclick="closeModal('ds')" aria-label="Schließen">&times;</button>
+    <h2 id="ds-t">Datenschutzerkl&auml;rung</h2>
+    <h3>1. Verantwortliche Stelle</h3>
+    <p>Theo Pohl, Kreuzst&uuml;cken, 24594 Hohenwestedt<br>E-Mail: <a href="mailto:theopohl@icloud.com">theopohl@icloud.com</a>, Tel.: 0160 97806831</p>
+    <h3>2. Datenerhebung</h3>
+    <p>Beim Besuch werden automatisch Server-Log-Daten erfasst (Browser, Betriebssystem, IP, Zeitstempel) – ausschlie&szlig;lich zur technischen Bereitstellung.</p>
+    <h3>3. Kontaktaufnahme per E-Mail oder Telefon</h3>
+    <p>Wenn du mich per E-Mail oder Telefon kontaktierst, werden deine Angaben zur Bearbeitung deiner Anfrage gespeichert und nicht an Dritte weitergegeben.</p>
+    <h3>4. Cookies</h3>
+    <p>Nur technisch notwendige Cookies (localStorage f&uuml;r Cookie-Einstellungen). Kein Tracking, keine Werbung, keine Analyse.</p>
+    <h3>5. Externe Dienste</h3>
+    <p>Diese Website l&auml;dt keine externen Schriften, kein Google Analytics und keine Social-Media-Plug-ins.</p>
+    <h3>6. Deine Rechte (DSGVO)</h3>
+    <p>Auskunft, Berichtigung, L&ouml;schung, Einschr&auml;nkung, Daten&uuml;bertragbarkeit, Widerspruch. Kontakt: <a href="mailto:theopohl@icloud.com">theopohl@icloud.com</a></p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Cookie banner
+  (function(){if(!localStorage.getItem('tw-c')){setTimeout(function(){var b=document.getElementById('cb');if(b)b.classList.add('show');},900);}})();
+  function cset(v){localStorage.setItem('tw-c',v);var b=document.getElementById('cb');if(b)b.classList.remove('show');}
+
+  // Nav scroll
+  var nav=document.getElementById('nav');
+  window.addEventListener('scroll',function(){nav.classList.toggle('sc',window.scrollY>32);},{passive:true});
+
+  // Hamburger
+  var hb=document.getElementById('hb'),nd=document.getElementById('nd');
+  hb.addEventListener('click',function(){var o=nd.classList.toggle('open');hb.classList.toggle('open',o);hb.setAttribute('aria-expanded',o);});
+  function cdr(){nd.classList.remove('open');hb.classList.remove('open');hb.setAttribute('aria-expanded','false');}
+  document.addEventListener('click',function(e){if(!nav.contains(e.target)&&!nd.contains(e.target))cdr();});
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var id=this.getAttribute('href');if(id==='#')return;
+      var t=document.querySelector(id);if(!t)return;
+      e.preventDefault();cdr();
+      window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-80,behavior:'smooth'});
     });
-    window.addEventListener('load', function() {
-      window.scrollTo(0, 0);
-      setTimeout(function() { window.scrollTo(0, 0); }, 100);
-      setTimeout(function() { window.scrollTo(0, 0); }, 500);
-    });
-    window.addEventListener('pageshow', function() {
-      window.scrollTo(0, 0);
-    });
-    window.addEventListener('beforeunload', function() {
-      window.scrollTo(0, 0);
-    });
+  });
 
-    function showSection(id) {
-      // Hide all extra sections first
-      document.getElementById('impressum').style.display = 'none';
-      document.getElementById('datenschutz').style.display = 'none';
-      // Show requested section
-      const el = document.getElementById(id);
-      el.style.display = 'block';
-      // Scroll to very top of section
-      window.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
-      return false;
-    }
+  // Scroll animations
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+  },{threshold:0.1,rootMargin:'0px 0px -20px 0px'});
+  document.querySelectorAll('.au,.as').forEach(function(el){io.observe(el);});
 
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
-  </script>
+  // Modals
+  function openModal(id){var o=document.getElementById('modal-'+id);if(!o)return;o.classList.add('open');document.body.style.overflow='hidden';var x=o.querySelector('.mx');if(x)x.focus();}
+  function closeModal(id){var o=document.getElementById('modal-'+id);if(!o)return;o.classList.remove('open');document.body.style.overflow='';}
+  document.querySelectorAll('.mo').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o){o.classList.remove('open');document.body.style.overflow='';}});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.mo.open').forEach(function(o){o.classList.remove('open');document.body.style.overflow='';});}});
+</script>
 </body>
 </html>
