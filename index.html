@@ -6,6 +6,7 @@
   <title>Theos Webdesign – Deine Website. Einmal bezahlen. Fertig.</title>
   <meta name="description" content="Professionelle Websites für Cafés, Restaurants und lokale Unternehmen. Ab 75 Euro einmalig, kein Abo, persönliche Beratung.">
   <meta name="robots" content="index, follow">
+  <link rel="preload" href="logo.PNG" as="image">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -187,7 +188,7 @@
       color: rgba(247,242,234,.75); flex-shrink: 0;
     }
     .htag-v { color: var(--bg-off); font-family: Georgia,serif; font-size: 1.05rem; font-weight: 700; line-height: 1.1; }
-    .htag-l { color: rgba(247,242,234,.6); font-size: .78rem; margin-top: 1px; }
+    .htag-l { color: rgba(247,242,234,.75); font-size: .78rem; margin-top: 1px; }
 
     @keyframes fU { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
     @keyframes fIn { from{opacity:0} to{opacity:1} }
@@ -198,7 +199,7 @@
     .titem { flex: 1; padding: 26px 16px; text-align: center; border-right: 1px solid rgba(255,255,255,.07); }
     .titem:last-child { border-right: none; }
     .tv { font-family: Georgia,serif; font-size: clamp(1.7rem,3vw,2.5rem); font-weight: 700; color: var(--bg); line-height: 1; margin-bottom: 3px; }
-    .td { font-size: .7rem; color: rgba(247,242,234,.35); letter-spacing: .05em; }
+    .td { font-size: .7rem; color: rgba(247,242,234,.55); letter-spacing: .05em; }
 
     /* ── SECTION HEADERS ── */
     .stag { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--olive-mid); margin-bottom: 10px; }
@@ -234,7 +235,7 @@
     .ditem:last-child { border-bottom: none; }
     .din { font-family: Georgia,serif; font-size: 1.4rem; font-weight: 700; color: rgba(247,242,234,.18); min-width: 34px; line-height: 1; }
     .dtext h3 { font-size: .9rem; font-weight: 600; color: rgba(247,242,234,.88); margin-bottom: 2px; }
-    .dtext p { font-size: .8rem; color: rgba(247,242,234,.5); line-height: 1.55; }
+    .dtext p { font-size: .8rem; color: rgba(247,242,234,.68); line-height: 1.55; }
 
     /* Browser mockup */
     .bmock { background: rgba(247,242,234,.07); border: 1px solid rgba(247,242,234,.11); border-radius: var(--r-xl); padding: 28px; }
@@ -307,7 +308,7 @@
     .fbrand img { height: 48px; width: 48px; border-radius: 50%; object-fit: contain; opacity: .7; }
     .fbname { margin-top: 8px; font-family: Georgia,serif; font-size: .82rem; color: rgba(247,242,234,.38); }
     .fcols { display: flex; gap: 52px; flex-wrap: wrap; }
-    .fcol h4 { font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(247,242,234,.22); margin-bottom: 13px; }
+    .fcol h3 { font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(247,242,234,.22); margin-bottom: 13px; }
     .fcol ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .fcol a, .fcol button { font-size: .83rem; color: rgba(247,242,234,.42); transition: color .2s; background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }
     .fcol a:hover, .fcol button:hover { color: var(--bg); }
@@ -369,8 +370,8 @@
     .um-card { background: rgba(247,242,234,.07); border: 1px solid rgba(247,242,234,.11); border-radius: var(--r-xl); padding: 36px 28px; text-align: center; }
     .um-avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: contain; margin: 0 auto 16px; display: block; background: rgba(247,242,234,.08); padding: 8px; }
     .um-nm { font-family: Georgia,'Times New Roman',serif; font-size: 1.2rem; font-weight: 700; color: var(--bg-off); margin-bottom: 3px; }
-    .um-rl { font-size: .7rem; color: rgba(247,242,234,.42); letter-spacing: .09em; text-transform: uppercase; margin-bottom: 20px; display: block; }
-    .um-loc { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; color: rgba(247,242,234,.35); }
+    .um-rl { font-size: .7rem; color: rgba(247,242,234,.58); letter-spacing: .09em; text-transform: uppercase; margin-bottom: 20px; display: block; }
+    .um-loc { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; color: rgba(247,242,234,.52); }
     .um-text h2 { font-family: Georgia,'Times New Roman',serif; font-size: clamp(1.9rem,3.5vw,2.8rem); font-weight: 700; line-height: 1.1; color: var(--bg-off); margin-bottom: 20px; }
     .um-text p { font-size: .93rem; color: rgba(247,242,234,.68); line-height: 1.75; margin-bottom: 14px; }
     .btn-cream { background: var(--bg-off); color: var(--olive) !important; border: 1.5px solid var(--bg-off); }
@@ -436,7 +437,7 @@
       <p class="hr-name">Theos Webdesign</p>
       <p class="hr-tl">Persönlich &bull; Günstig &bull; Zuverlässig</p>
     </div>
-    <div class="logo-ring"><img src="logo.PNG" alt=""></div>
+    <div class="logo-ring"><img src="logo.PNG" alt="" width="108" height="108" loading="eager" fetchpriority="high"></div>
     <div class="hero-tags">
       <div class="htag">
         <div class="htag-ic">
@@ -511,7 +512,7 @@
   <div class="wrap">
     <div class="um-layout">
       <div class="um-card as">
-        <img class="um-avatar" src="logo.PNG" alt="Theos Webdesign">
+        <img class="um-avatar" src="logo.PNG" alt="Theos Webdesign" width="96" height="96" loading="lazy">
         <p class="um-nm">Theo Pohl</p>
         <span class="um-rl">Webdesigner &amp; Entwickler</span>
         <span class="um-loc">
@@ -583,11 +584,11 @@
 <footer>
   <div class="wrap fi">
     <div class="ftop">
-      <div class="fbrand"><img src="logo.PNG" alt="Theos Webdesign" width="48" height="48"><div class="fbname">Theos Webdesign</div></div>
+      <div class="fbrand"><img src="logo.PNG" alt="Theos Webdesign" width="48" height="48" loading="lazy"><div class="fbname">Theos Webdesign</div></div>
       <nav class="fcols" aria-label="Footer">
-        <div class="fcol"><h4>Navigation</h4><ul role="list"><li><a href="#leistungen">Leistungen</a></li><li><a href="#ueber-mich">Über mich</a></li><li><a href="#preise">Preise</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#kontakt">Kontakt</a></li></ul></div>
-        <div class="fcol"><h4>Rechtliches</h4><ul role="list"><li><button onclick="openModal('imp')">Impressum</button></li><li><button onclick="openModal('ds')">Datenschutz</button></li></ul></div>
-        <div class="fcol"><h4>Kontakt</h4><ul role="list"><li><a href="mailto:theopohl@icloud.com">theopohl@icloud.com</a></li><li><a href="tel:016097806831">0160 97806831</a></li></ul></div>
+        <div class="fcol"><h3>Navigation</h3><ul role="list"><li><a href="#leistungen">Leistungen</a></li><li><a href="#ueber-mich">Über mich</a></li><li><a href="#preise">Preise</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#kontakt">Kontakt</a></li></ul></div>
+        <div class="fcol"><h3>Rechtliches</h3><ul role="list"><li><button onclick="openModal('imp')">Impressum</button></li><li><button onclick="openModal('ds')">Datenschutz</button></li></ul></div>
+        <div class="fcol"><h3>Kontakt</h3><ul role="list"><li><a href="mailto:theopohl@icloud.com">theopohl@icloud.com</a></li><li><a href="tel:016097806831">0160 97806831</a></li></ul></div>
       </nav>
     </div>
     <div class="fbot">
